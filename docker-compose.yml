@@ -7,6 +7,8 @@ services:
       dockerfile: app/app.dockerfile
     volumes:
       - ./app:/app
+      - ./app/assets/static:/vol/web/static
+      - ./app/assets/media:/vol/web/media
     ports:
       - 8000:8000
     command: >
