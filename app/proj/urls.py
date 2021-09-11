@@ -18,10 +18,6 @@ urlpatterns = [
         include("coupon.urls"),
     ),
     path(
-        "api/courses/",
-        include("course.urls"),
-    ),
-    path(
         "api/doubts/",
         include("doubt.urls"),
     ),
@@ -32,5 +28,9 @@ urlpatterns = [
     path(
         "api/reviews/",
         include("review.urls"),
+    ),
+    path(
+        "api/",
+        include("course.urls"),
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
