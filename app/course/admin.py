@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Course
+from .models import Category, Course, Tag
 
 
 @admin.register(Category)
@@ -65,6 +65,36 @@ class CourseAdmin(admin.ModelAdmin):
         "price",
         "discount",
         "duration",
+    ]
+    ordering = [
+        "-created_date",
+    ]
+    readonly_fields = (
+        "id",
+        "created_date",
+        "modified_date",
+    )
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    prepopulated_fields = {
+        "slug": ("tag",),
+    }
+    list_display = (
+        "id",
+        "tag",
+        "slug",
+        "created_date",
+        "modified_date",
+    )
+    list_display_links = (
+        "id",
+        "tag",
+        "slug",
+    )
+    list_filter = [
+        "tag",
     ]
     ordering = [
         "-created_date",

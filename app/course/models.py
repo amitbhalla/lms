@@ -55,3 +55,19 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Tag(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    tag = models.CharField(max_length=255, null=False)
+    slug = models.SlugField(null=False)
+    course = models.ForeignKey(
+        "Course",
+        on_delete=models.CASCADE,
+        related_name="tags",
+    )
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.tag
