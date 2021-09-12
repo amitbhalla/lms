@@ -26,6 +26,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "Categories"
+        ordering = ["-modified_date"]
 
     def __str__(self):
         return self.title
@@ -53,6 +54,9 @@ class Course(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ["-modified_date"]
+
     def __str__(self):
         return self.title
 
@@ -68,6 +72,9 @@ class Tag(models.Model):
     )
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-modified_date"]
 
     def __str__(self):
         return self.tag
