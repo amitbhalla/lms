@@ -13,27 +13,27 @@ urlpatterns = [
     ),
     path(
         "api/chapters/",
-        include("chapter.urls"),
+        include(("chapter.urls", "chapter"), namespace="chapter"),
     ),
     path(
         "api/coupons/",
-        include("coupon.urls"),
+        include(("coupon.urls", "coupon"), namespace="coupon"),
     ),
     path(
         "api/doubts/",
-        include("doubt.urls"),
+        include(("doubt.urls", "doubt"), namespace="doubt"),
     ),
     path(
         "api/orders/",
-        include("order.urls"),
+        include(("order.urls", "order"), namespace="order"),
     ),
     path(
         "api/reviews/",
-        include("review.urls"),
+        include(("review.urls", "review"), namespace="review"),
     ),
     path(
         "api/",
-        include("course.urls"),
+        include(("course.urls", "course"), namespace="course"),
     ),
     path(
         "api/",
