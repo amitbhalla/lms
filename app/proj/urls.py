@@ -32,7 +32,7 @@ urlpatterns = [
         include(("review.urls", "review"), namespace="review"),
     ),
     path(
-        "api/courses/",
+        "api/",
         include(("course.urls", "course"), namespace="course"),
     ),
     path(

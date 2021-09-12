@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework import status
@@ -13,6 +14,7 @@ class CategoryViewSet(ModelViewSet):
     permission_classes = [IsAdminUserOrReadOnly]
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+    filterset_fields = ["title", "id", "slug"]
 
 
 class CategorySlugDetailView(RetrieveUpdateDestroyAPIView):
@@ -22,10 +24,44 @@ class CategorySlugDetailView(RetrieveUpdateDestroyAPIView):
     lookup_field = "slug"
 
 
+class CategoryCoursesView(APIView):
+    def get(self, request, category_id):
+        try:
+            courses = Course.objects.filter(category=Category(pk=category_id))
+        except (Course.DoesNotExist, ValidationError):
+            error_message = {"category": ["category_id is invalid!"]}
+            return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = CourseSerializer(courses, many=True)
+        if courses.count() > 0:
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(
+                {"Course": "No courses found with that id."},
+                status=status.HTTP_200_OK,
+            )
+
+
 class CourseViewSet(ModelViewSet):
     permission_classes = [IsAdminUserOrReadOnly]
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
+    filterset_fields = [
+        "title",
+        "id",
+        "slug",
+        "language",
+        "price",
+        "discount",
+        "instructor",
+    ]
+
+    def get_queryset(self):
+        tag = self.request.query_params.get("tag")
+        if tag is not None:
+            courses = Tag.objects.filter(tag=tag).values_list("course")
+            return self.queryset.filter(pk__in=courses)
+        return self.queryset
 
     def create(self, request, *args, **kwargs):
         course = request.data
@@ -73,6 +109,7 @@ class TagViewSet(ModelViewSet):
     permission_classes = [IsAdminUserOrReadOnly]
     serializer_class = TagSerializer
     queryset = Tag.objects.all()
+    filterset_fields = ["id", "tag"]
 
     def create(self, request, *args, **kwargs):
         tag = request.data

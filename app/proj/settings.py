@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "django_filters",
     "core",
     "chapter",
     "coupon",
@@ -147,3 +148,10 @@ RAZORPAY_ID = env("RAZORPAY_ID")
 RAZORPAY_SECRET = env("RAZORPAY_SECRET")
 
 SENDER_EMAIL = env("SENDER_EMAIL")
+
+# REST Filtering
+REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend"
+    ]
+}

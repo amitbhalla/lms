@@ -4,6 +4,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     CategoryViewSet,
     CategorySlugDetailView,
+    CategoryCoursesView,
     CourseViewSet,
     CourseSlugDetailView,
     TagViewSet,
@@ -27,6 +28,11 @@ urlpatterns = [
         name="category-detail-by-slug",
     ),
     path(
+        "categories/<str:category_id>/courses/",
+        CategoryCoursesView.as_view(),
+        name="category-courses-list",
+    ),
+    path(
         "categories/",
         include(category_router.urls),
     ),
@@ -45,7 +51,7 @@ urlpatterns = [
         name="course-detail-by-slug",
     ),
     path(
-        "",
+        "courses/",
         include(course_router.urls),
     ),
 ]

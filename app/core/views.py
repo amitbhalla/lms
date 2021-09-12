@@ -26,6 +26,11 @@ def api_root(request):
                     request=request,
                     args=["slug-val"],
                 ),
+                "Category Courses": reverse(
+                    "course:category-courses-list",
+                    request=request,
+                    args=["course-id"],
+                ),
             },
             "Course": {
                 "Course List View": reverse(
