@@ -20,7 +20,7 @@ def course_resource(instance, filename):
 class Category(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     title = models.CharField(max_length=255, null=False)
-    slug = models.SlugField(null=False)
+    slug = models.SlugField(null=False, unique=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
@@ -35,7 +35,7 @@ class Category(models.Model):
 class Course(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     title = models.CharField(max_length=255, null=False)
-    slug = models.SlugField(null=False)
+    slug = models.SlugField(null=False, unique=True)
     instructor = models.CharField(max_length=255, null=False)
     language = models.CharField(max_length=255, null=False)
     description = models.TextField()
@@ -64,7 +64,7 @@ class Course(models.Model):
 class Tag(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     tag = models.CharField(max_length=255, null=False)
-    slug = models.SlugField(null=False)
+    slug = models.SlugField(null=False, unique=True)
     course = models.ForeignKey(
         "Course",
         on_delete=models.CASCADE,
