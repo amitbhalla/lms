@@ -21,6 +21,11 @@ def api_root(request):
                     request=request,
                     args=[1],
                 ),
+                "Category Detail View [Slug]": reverse(
+                    "course:category-detail-by-slug",
+                    request=request,
+                    args=["slug-val"],
+                ),
             },
             "Course": {
                 "Course List View": reverse(
@@ -32,6 +37,11 @@ def api_root(request):
                     request=request,
                     args=[1],
                 ),
+                "Course Detail View [Slug]": reverse(
+                    "course:course-detail-by-slug",
+                    request=request,
+                    args=["slug-val"],
+                ),
             },
             "Tag": {
                 "Tag List View": reverse(
@@ -42,6 +52,11 @@ def api_root(request):
                     "course:tag-detail",
                     request=request,
                     args=[1],
+                ),
+                "Tag Detail View [Slug]": reverse(
+                    "course:tag-detail-by-slug",
+                    request=request,
+                    args=["slug-val"],
                 ),
             },
         },
