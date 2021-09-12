@@ -56,8 +56,10 @@ class CourseViewSet(ModelViewSet):
                 CourseSerializer(course, context=context).data,
                 status=status.HTTP_200_OK,
             )
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
 
 
 class CourseSlugDetailView(RetrieveUpdateDestroyAPIView):
@@ -78,14 +80,14 @@ class TagViewSet(ModelViewSet):
 
         if course_id is None:
             error_message = {
-                "course": ["course is required."],
+                "course": ["course_id is required."],
             }
             return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
         try:
             course = Course.objects.get(pk=course_id)
         except (Course.DoesNotExist, ValidationError):
             error_message = {
-                "course": ["course is invalid!"],
+                "course": ["course_id is invalid!"],
             }
             return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
 
@@ -97,7 +99,10 @@ class TagViewSet(ModelViewSet):
         if serializer.is_valid():
             tag = Tag(**serializer.validated_data, course=course)
             tag.save()
-            return Response(TagSerializer(tag).data, status=status.HTTP_200_OK)
+            return Response(
+                TagSerializer(tag, context=context).data,
+                status=status.HTTP_200_OK,
+            )
         else:
             return Response(
                 serializer.errors, status=status.HTTP_400_BAD_REQUEST
