@@ -13,8 +13,9 @@ from core.permissions import IsAdminUserOrReadOnly
 class CategoryViewSet(ModelViewSet):
     permission_classes = [IsAdminUserOrReadOnly]
     serializer_class = CategorySerializer
-    queryset = Category.objects.all()
     filterset_fields = ["title", "id", "slug"]
+    search_fields = ["title", "id", "slug"]
+    queryset = Category.objects.all()
 
 
 class CategorySlugDetailView(RetrieveUpdateDestroyAPIView):
@@ -45,7 +46,6 @@ class CategoryCoursesView(APIView):
 class CourseViewSet(ModelViewSet):
     permission_classes = [IsAdminUserOrReadOnly]
     serializer_class = CourseSerializer
-    queryset = Course.objects.all()
     filterset_fields = [
         "title",
         "id",
@@ -55,6 +55,15 @@ class CourseViewSet(ModelViewSet):
         "discount",
         "instructor",
     ]
+    search_fields = [
+        "title",
+        "id",
+        "slug",
+        "language",
+        "price",
+        "discount",
+    ]
+    queryset = Course.objects.filter()
 
     def get_queryset(self):
         tag = self.request.query_params.get("tag")
@@ -101,8 +110,9 @@ class CourseViewSet(ModelViewSet):
 class CourseSlugDetailView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUserOrReadOnly]
     serializer_class = CourseSerializer
-    queryset = Course.objects.all()
-    lookup_field = "slug"
+    filterset_fields = ["id", "tag"]
+    search_fields = ["id", "tag"]
+    queryset = Tag.objects.all()
 
 
 class TagViewSet(ModelViewSet):
